@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const UserSchema = require("../models/User");
+const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const fetchUser = require("../middleware/fetchUser");
 
 const JWT_SECRET = "dollar$ignOnet1me";
+
+// ------------------------------- ROUTE 1 -------------------------------
+
+// route (/api/auth/createUser)
 
 // POST -> creating a new user
 
 router.post(
-  // route (/api/auth/createUser)
   "/createUser",
 
   // array of middleware function. checks req.body and does the mentioned validations
@@ -22,7 +26,6 @@ router.post(
     }),
   ],
 
-  // async function checking for errors
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -32,7 +35,7 @@ router.post(
     }
 
     // check if same email exists
-    let user = await UserSchema.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) {
       return res.status(400).json({
         error: "email already exists",
@@ -46,7 +49,7 @@ router.post(
 
     // creates new user if code moves forward to here
     try {
-      const user = await UserSchema.create({
+      const user = await User.create({
         name: req.body.name,
         email: req.body.email,
         password: securePass,
@@ -68,10 +71,13 @@ router.post(
   }
 );
 
+// ------------------------------- ROUTE 2 -------------------------------
+
+// route (/api/auth/authenticate)
+
 // POST -> authenticating user
 
 router.post(
-  // route (/api/auth/authenticate)
   "/authenticate",
 
   // array of middleware function. checks req.body and does the mentioned validations
@@ -80,7 +86,7 @@ router.post(
     body("password", "password cannot be empty").exists(),
   ],
 
-  // async function checking for errors
+  // validating user's login credentials logic
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -90,7 +96,7 @@ router.post(
     }
     const { email, password } = req.body;
     try {
-      let user = await UserSchema.findOne({ email });
+      let user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({
           error: "wrong credentials",
@@ -110,6 +116,30 @@ router.post(
       };
       const authToken = jwt.sign(payload, JWT_SECRET);
       res.json({ authToken });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("internal server error :/");
+    }
+  }
+);
+
+// ------------------------------- ROUTE 3 -------------------------------
+
+// route (/api/auth/getUser)
+
+// POST -> get logged in user details
+
+router.post(
+  "/getUser",
+
+  // middleware function
+  fetchUser,
+
+  async (req, res) => {
+    try {
+      let userId = req.user.id;
+      const user = await User.findById(userId).select("-password");
+      res.send(user);
     } catch (error) {
       console.error(error.message);
       res.status(500).send("internal server error :/");
