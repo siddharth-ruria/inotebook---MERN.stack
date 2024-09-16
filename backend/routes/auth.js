@@ -7,6 +7,8 @@ var jwt = require("jsonwebtoken");
 
 const JWT_SECRET = "dollar$ignOnet1me";
 
+// POST -> creating a new user
+
 router.post(
   // route (/api/auth/createUser)
   "/createUser",
@@ -57,11 +59,60 @@ router.post(
       };
 
       // creates jwt authentication token and sends it back.
-      var authToken = jwt.sign(data, JWT_SECRET);
+      const authToken = jwt.sign(data, JWT_SECRET);
       res.json({ authToken });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("some error occured :/");
+      res.status(500).send("internal server error :/");
+    }
+  }
+);
+
+// POST -> authenticating user
+
+router.post(
+  // route (/api/auth/authenticate)
+  "/authenticate",
+
+  // array of middleware function. checks req.body and does the mentioned validations
+  [
+    body("email", "enter a valid email").isEmail(),
+    body("password", "password cannot be empty").exists(),
+  ],
+
+  // async function checking for errors
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+    const { email, password } = req.body;
+    try {
+      let user = await UserSchema.findOne({ email });
+      if (!user) {
+        return res.status(400).json({
+          error: "wrong credentials",
+        });
+      }
+      const passwordCompare = await bcrypt.compare(password, user.password);
+      if (!passwordCompare) {
+        return res.status(400).json({
+          error: "wrong credentials",
+        });
+      }
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      const authToken = jwt.sign(payload, JWT_SECRET);
+      res.json({ authToken });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("internal server error :/");
     }
   }
 );
