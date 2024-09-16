@@ -62,4 +62,45 @@ router.get(
   }
 );
 
+// ------------------------------- ROUTE 3 -------------------------------
+
+// route (/api/auth/updateNote/:id)
+
+// PUT -> update details of a note
+
+router.put(
+  "/updateNote/:id",
+  fetchUser,
+  [
+    body("title", "enter a valid title").isLength({ min: 3 }),
+    body("description", "description must be of 7 chars minimum").isLength({
+      min: 7,
+    }),
+  ],
+  async (req, res) => {
+    const { title, description, tag } = req.body;
+
+    // create a new note object
+    const newNote = {};
+    if (title) newNote.title = title;
+    if (description) newNote.description = description;
+    if (tag) newNote.tag = tag;
+
+    // find the note and update it
+    let note = await Notes.findById(req.params.id);
+    if (!note) {
+      return res.status(404).send("note not found");
+    }
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).send("not allowed");
+    }
+    note = await Notes.findByIdAndUpdate(
+      req.params.id,
+      { $set: newNote },
+      { new: true }
+    );
+    res.json(note);
+  }
+);
+
 module.exports = router;
