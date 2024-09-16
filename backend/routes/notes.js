@@ -8,7 +8,7 @@ const fetchUser = require("../middleware/fetchUser");
 
 // route (/api/auth/fetchAllNotes)
 
-// GET -> get all the notes of the user
+// GET -> get all notes
 
 router.get("/fetchAllNotes", fetchUser, async (req, res) => {
   try {
@@ -26,7 +26,7 @@ router.get("/fetchAllNotes", fetchUser, async (req, res) => {
 
 // POST -> add a new note
 
-router.get(
+router.post(
   "/addNote",
   fetchUser,
   [
@@ -66,7 +66,7 @@ router.get(
 
 // route (/api/auth/updateNote/:id)
 
-// PUT -> update details of a note
+// PUT -> update a note
 
 router.put(
   "/updateNote/:id",
@@ -87,20 +87,55 @@ router.put(
     if (tag) newNote.tag = tag;
 
     // find the note and update it
-    let note = await Notes.findById(req.params.id);
-    if (!note) {
-      return res.status(404).send("note not found");
+    try {
+      let note = await Notes.findById(req.params.id);
+      if (!note) {
+        return res.status(404).send("note not found");
+      }
+      if (note.user.toString() !== req.user.id) {
+        return res.status(401).send("not allowed");
+      }
+      note = await Notes.findByIdAndUpdate(
+        req.params.id,
+        { $set: newNote },
+        { new: true }
+      );
+      res.json(note);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("internal server error :/");
     }
-    if (note.user.toString() !== req.user.id) {
-      return res.status(401).send("not allowed");
-    }
-    note = await Notes.findByIdAndUpdate(
-      req.params.id,
-      { $set: newNote },
-      { new: true }
-    );
-    res.json(note);
   }
 );
+
+// ------------------------------- ROUTE 4 -------------------------------
+
+// route (/api/auth/deleteNote/:id)
+
+// DELETE -> delete a note
+
+router.delete("/deleteNote/:id", fetchUser, async (req, res) => {
+  // find the note and delete it
+  let note = await Notes.findById(req.params.id);
+  if (!note) {
+    return res.status(404).send("note not found");
+  }
+
+  if (note.user.toString() !== req.user.id) {
+    return res.status(401).send("not allowed");
+  }
+
+  // find note and delete
+  try {
+    note = await Notes.findByIdAndDelete(req.params.id);
+    res.json({
+      success: "note has been deleted",
+      note: note,
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("internal server error :/");
+  }
+});
 
 module.exports = router;
