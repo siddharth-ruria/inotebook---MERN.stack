@@ -4,8 +4,8 @@ const UserSchema = require("../models/User");
 const { body, validationResult } = require("express-validator");
 
 router.post(
-  // route (/api/auth)
-  "",
+  // route (/api/auth/createUser)
+  "/createUser",
 
   // array of middleware function. checks req.body and does the mentioned validations
   [
@@ -25,6 +25,14 @@ router.post(
       });
     }
 
+    // check if same email exists
+    let user = await UserSchema.findOne({ email: req.body.email });
+    if (user) {
+      return res.status(400).json({
+        error: "email already exists",
+      });
+    }
+
     // creates new user if code moves forward to here
     try {
       const user = await UserSchema.create({
@@ -33,11 +41,11 @@ router.post(
         password: req.body.password,
       });
 
-      // sends response if user is successfully create
+      // sends user as response if created successfully
       return res.json(user);
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("internal server error");
+      res.status(500).send("some error occured :/");
     }
   }
 );
