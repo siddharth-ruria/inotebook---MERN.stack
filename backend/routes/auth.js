@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const UserSchema = require("../models/User");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+
+const JWT_SECRET = "dollar$ignOnet1me";
 
 router.post(
   // route (/api/auth/createUser)
@@ -33,16 +37,28 @@ router.post(
       });
     }
 
+    // hashing the password using salt
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    securePass = await bcrypt.hash(req.body.password, salt);
+
     // creates new user if code moves forward to here
     try {
       const user = await UserSchema.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: securePass,
       });
 
-      // sends user as response if created successfully
-      return res.json(user);
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      // creates jwt authentication token and sends it back.
+      var authToken = jwt.sign(data, JWT_SECRET);
+      res.json({ authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("some error occured :/");
