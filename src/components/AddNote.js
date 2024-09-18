@@ -53,7 +53,7 @@ const AddNote = () => {
           className="btn btn-primary"
           onClick={addNoteClick}
         >
-          Submit
+          add note
         </button>
       </form>
     </div>
