@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NoteContext from "./noteContext";
+import { v4 as uuidv4 } from "uuid";
 
 const initialNotes = [];
 
@@ -39,7 +40,7 @@ const NoteState = (props) => {
     console.log("adding a new note");
 
     const note = {
-      _id: "66e91832a9ad462e21998048",
+      _id: uuidv4(),
       user: "66e7a7fc41afb95c1a6c638e",
       title: title,
       description: description,
