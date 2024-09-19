@@ -18,7 +18,7 @@ const Notes = () => {
   const [note, setNote] = useState({
     id: "",
     etitle: "",
-    edescription: "",
+    edescription: "no description",
     etag: "notes",
   });
 
@@ -87,6 +87,8 @@ const Notes = () => {
                     value={note.etitle}
                     aria-describedby="emailHelp"
                     onChange={onChange}
+                    minLength={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -100,6 +102,8 @@ const Notes = () => {
                     name="edescription"
                     value={note.edescription}
                     onChange={onChange}
+                    minLength={7}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -130,6 +134,9 @@ const Notes = () => {
                 type="button"
                 className="btn btn-primary"
                 onClick={addNoteClick}
+                disabled={
+                  note.etitle.length < 5 || note.edescription.length < 7
+                }
               >
                 save changes
               </button>
@@ -139,11 +146,20 @@ const Notes = () => {
       </div>
       <div className="row my-4">
         <h1>your notes</h1>
-        {notes.map((note) => {
-          return (
-            <NoteItem key={uuidv4()} note={note} updateNote={updateNoteFunc} />
-          );
-        })}
+
+        {notes.length === 0 ? (
+          <p>no notes available</p>
+        ) : (
+          notes.map((note) => {
+            return (
+              <NoteItem
+                key={uuidv4()}
+                note={note}
+                updateNote={updateNoteFunc}
+              />
+            );
+          })
+        )}
       </div>
     </>
   );

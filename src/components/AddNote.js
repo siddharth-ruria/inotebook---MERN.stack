@@ -8,12 +8,17 @@ const AddNote = () => {
   const [note, setNote] = useState({
     title: "",
     description: "",
-    tag: "notes",
+    tag: "",
   });
 
   const addNoteClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setNote({
+      title: "",
+      description: "",
+      tag: "",
+    });
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.id]: e.target.value });
@@ -34,6 +39,9 @@ const AddNote = () => {
             name="title"
             aria-describedby="emailHelp"
             onChange={onChange}
+            value={note.title}
+            minLength={7}
+            required
           />
         </div>
         <div className="mb-3">
@@ -46,6 +54,9 @@ const AddNote = () => {
             id="description"
             name="description"
             onChange={onChange}
+            value={note.description}
+            minLength={7}
+            required
           />
         </div>
         <div className="mb-3">
@@ -58,12 +69,16 @@ const AddNote = () => {
             id="tag"
             name="tag"
             onChange={onChange}
+            value={note.tag}
+            minLength={3}
+            required
           />
         </div>
         <button
           type="submit"
           className="btn btn-primary"
           onClick={addNoteClick}
+          disabled={note.title.length < 5 || note.description.length < 7}
         >
           add note
         </button>
