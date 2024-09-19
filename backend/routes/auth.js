@@ -29,7 +29,9 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      success = false;
       return res.status(400).json({
+        success,
         errors: errors.array(),
       });
     }
@@ -37,7 +39,7 @@ router.post(
     // check if same email exists
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-      success= false;
+      success = false;
       return res.status(400).json({
         success,
         error: "email already exists",
@@ -65,7 +67,7 @@ router.post(
 
       // creates jwt authentication token and sends it back.
       const authToken = jwt.sign(data, JWT_SECRET);
-      success= true;
+      success = true;
       res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
@@ -91,6 +93,7 @@ router.post(
 
   // validating user's login credentials logic
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -145,10 +148,10 @@ router.post(
     try {
       let userId = req.user.id;
       const user = await User.findById(userId).select("-password");
-      success= true;
+      success = true;
       res.send(success, user);
     } catch (error) {
-      success= false;
+      success = false;
       console.error(success, error.message);
       res.status(500).send("internal server error :/");
     }

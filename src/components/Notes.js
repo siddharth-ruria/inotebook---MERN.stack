@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import NoteItem from "./NoteItem";
+
 import noteContext from "../context/notes/noteContext";
 import { v4 as uuidv4 } from "uuid";
 import AddNote from "./AddNote";
