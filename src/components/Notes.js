@@ -6,21 +6,26 @@ import AddNote from "./AddNote";
 
 const Notes = () => {
   const context = useContext(noteContext);
-  const { notes, getAllNotes } = context;
+  const { notes, getAllNotes, updateNote } = context;
   useEffect(() => {
     getAllNotes();
+    // eslint-disable-next-line
   }, []);
 
   const ref = useRef(null);
+  const refClose = useRef(null);
+
   const [note, setNote] = useState({
+    id: "",
     etitle: "",
     edescription: "",
     etag: "notes",
   });
 
-  const updateNote = (currentNote) => {
+  const updateNoteFunc = (currentNote) => {
     ref.current.click();
     setNote({
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,
@@ -28,8 +33,8 @@ const Notes = () => {
   };
 
   const addNoteClick = (e) => {
-    console.log("updated the note", note);
-    e.preventDefault();
+    updateNote(note.id, note.etitle, note.edescription, note.etag);
+    refClose.current.click();
   };
 
   const onChange = (e) => {
@@ -114,6 +119,7 @@ const Notes = () => {
             </div>
             <div className="modal-footer">
               <button
+                ref={refClose}
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
@@ -135,7 +141,7 @@ const Notes = () => {
         <h1>your notes</h1>
         {notes.map((note) => {
           return (
-            <NoteItem key={uuidv4()} note={note} updateNote={updateNote} />
+            <NoteItem key={uuidv4()} note={note} updateNote={updateNoteFunc} />
           );
         })}
       </div>
