@@ -54,6 +54,7 @@ const NoteState = (props) => {
     });
 
     const json = await response.json();
+    console.log(json);
 
     getAllNotes();
 
@@ -82,6 +83,7 @@ const NoteState = (props) => {
       },
     });
     const json = await response.json();
+    console.log(json);
 
     const newNotes = notes.filter((note) => {
       return note._id !== id;
