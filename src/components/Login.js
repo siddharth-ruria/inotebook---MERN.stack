@@ -16,6 +16,7 @@ const Login = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          // name: credentials.name,
           email: credentials.email,
           password: credentials.password,
         }),
@@ -24,12 +25,13 @@ const Login = (props) => {
     const json = await response.json();
     console.log(json);
     if (json.success) {
-      // save the auth-token and redirect
+      // save the auth-token and redirect [ login successful ]
       localStorage.setItem("token", json.authtoken);
       navigate("/");
+      props.showAlert("login successful", "success");
     } else {
-      // alert pop up
-      alert("invalid credentials");
+      // alert pop up [ failed ]
+      props.showAlert("invalid credentials", "danger");
     }
   };
 

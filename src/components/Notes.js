@@ -5,7 +5,7 @@ import noteContext from "../context/notes/noteContext";
 import { v4 as uuidv4 } from "uuid";
 import AddNote from "./AddNote";
 
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(noteContext);
   const { notes, getAllNotes, updateNote } = context;
   useEffect(() => {
@@ -36,6 +36,7 @@ const Notes = () => {
   const addNoteClick = (e) => {
     updateNote(note.id, note.etitle, note.edescription, note.etag);
     refClose.current.click();
+    props.showAlert("note updated successfully", "success");
   };
 
   const onChange = (e) => {
@@ -44,7 +45,7 @@ const Notes = () => {
 
   return (
     <>
-      <AddNote />
+      <AddNote showAlert={props.showAlert} />
       <button
         type="button"
         className="btn btn-primary d-none"
@@ -157,6 +158,7 @@ const Notes = () => {
                 key={uuidv4()}
                 note={note}
                 updateNote={updateNoteFunc}
+                showAlert={props.showAlert}
               />
             );
           })
