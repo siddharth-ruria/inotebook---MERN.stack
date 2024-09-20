@@ -2,7 +2,7 @@
 # iNotebook App
 iNotebook is a powerful note-taking application built with the MERN stack (MongoDB, Express, React, Node.js). This full-stack web app allows users to create, update, and delete notes efficiently. With a user-friendly interface, secure JWT authentication, and responsive design, iNotebook is perfect for managing your ideas and tasks on the go.
 
-~ [iNotebook Website](https://inotebook-ruria.vercel.app/signup)
+
 ## Badges
 
 
@@ -71,7 +71,7 @@ I would like to express my gratitude to the following resource that made this pr
    npm run both
    ```
 ### b. Direct Website Link
-~ [iNotebook Website](https://inotebook-ruria.vercel.app/signup)
+~ coming soon...
 ## Feedback
 
 If you have any feedback, please reach out to me at siddharthruria10@gmail.com
