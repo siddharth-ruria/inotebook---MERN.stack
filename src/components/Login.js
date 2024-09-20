@@ -26,7 +26,7 @@ const Login = (props) => {
     console.log(json);
     if (json.success) {
       // save the auth-token and redirect [ login successful ]
-      localStorage.setItem("token", json.authtoken);
+      localStorage.setItem("token", json.authToken);
       navigate("/");
       props.showAlert("login successful", "success");
     } else {
@@ -40,8 +40,11 @@ const Login = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={submitFunc}>
+    <div className="container position-relative">
+      <h2 className=" position-absolute start-50 translate-middle">
+        login to open your iNotebook
+      </h2>
+      <form className="py-5 my-3" onSubmit={submitFunc}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
             email address
@@ -69,9 +72,11 @@ const Login = (props) => {
             onChange={onChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          submit
-        </button>
+        <div className="d-flex justify-content-center">
+          <button type="submit" className="btn btn-primary my-3">
+            submit
+          </button>
+        </div>
       </form>
     </div>
   );

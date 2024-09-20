@@ -11,6 +11,7 @@ const AddNote = (props) => {
     tag: "",
   });
 
+
   const addNoteClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);

@@ -35,7 +35,10 @@ const Signup = (props) => {
       props.showAlert("account created successfully", "success");
     } else {
       // alert pop up [ failed ]
-      props.showAlert("email already exists. try with a different email", "danger");
+      props.showAlert(
+        "email already exists. try with a different email",
+        "danger"
+      );
     }
   };
 
@@ -44,8 +47,11 @@ const Signup = (props) => {
   };
 
   return (
-    <div className="container">
-      <form onSubmit={submitFunc}>
+    <div className="container position-relative">
+      <h2 className=" position-absolute start-50 translate-middle">
+        signup to create your own iNotebook
+      </h2>
+      <form className="py-5 my-3" onSubmit={submitFunc}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             name
@@ -101,9 +107,11 @@ const Signup = (props) => {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+        <div className="d-flex justify-content-center">
+          <button type="submit" className="btn btn-primary my-3">
+            submit
+          </button>
+        </div>
       </form>
     </div>
   );
