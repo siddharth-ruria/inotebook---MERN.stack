@@ -24,10 +24,14 @@ I would like to express my gratitude to the following resource that made this pr
 
 ## Features
 
-- Effortlessly **create**, **edit**, and **delete** notes with a user-friendly interface
-- **Log in** and **Sign Up** with JWT for safe access to your notes
-- Access and manage your notes seamlessly across all devices
-  
+- Effortlessly **create**, **edit**, and **delete** notes with a user-friendly interface.
+- **Log in** and **Sign Up** with JWT for safe access to your notes.
+- Access and manage your notes seamlessly across all devices.
+
+## Ongoing Updates...
+
+- Working on dark theme.
+- Working on integrating 'About Page' of user.
 
 
 ## Installation and Usage
