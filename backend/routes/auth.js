@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchUser");
 
-const JWT_SECRET = "dollar$ignOnet1me";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ------------------------------- ROUTE 1 -------------------------------
 

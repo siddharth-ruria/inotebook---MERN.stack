@@ -55,19 +55,6 @@ const NoteState = (props) => {
     console.log(json);
 
     getAllNotes();
-
-    // logic to edit in client
-    // let newNotes = JSON.parse(JSON.stringify(notes));
-    // for (let index = 0; index < newNotes.length; index++) {
-    //   const element = newNotes[index];
-    //   if (element._id === id) {
-    //     newNotes[index].title = title;
-    //     newNotes[index].description = description;
-    //     newNotes[index].tag = tag;
-    //     break;
-    //   }
-    // }
-    // setNotes(newNotes);
   };
 
   // ----------------------------------- delete a note -----------------------------------
