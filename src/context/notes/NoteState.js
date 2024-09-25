@@ -4,7 +4,7 @@ import NoteContext from "./noteContext";
 const initialNotes = [];
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
+  const host = "https://inotebook-backend-yzeb.onrender.com";
   const [notes, setNotes] = useState(initialNotes);
 
   // ----------------------------------- get all notes -----------------------------------
