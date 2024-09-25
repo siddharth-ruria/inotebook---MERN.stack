@@ -40,12 +40,12 @@ I would like to express my gratitude to the following resource that made this pr
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/siddharth-ruria/inotebook---MERN.stack.git
+   git clone https://github.com/siddharthruria/3.inotebook---MERN.stack.git
    ```
    
 2. Navigate to the project directory:
    ```bash
-   cd inotebook---MERN.stack
+   cd 3.inotebook---MERN.stack
    ```
    
 3. Create a .env file here
