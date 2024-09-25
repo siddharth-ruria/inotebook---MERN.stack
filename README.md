@@ -34,39 +34,57 @@ I would like to express my gratitude to the following resource that made this pr
 - Working on dark theme.
 - Working on integrating 'About Page' of user.
 
+## Setting up Environment Variables
 
-## Installation and Usage
-
-### a. How to Clone to Local Machine
+- To run this project locally, follow these steps to configure your environment variables:
 
 1. Clone the repo:
    ```bash
    git clone https://github.com/siddharth-ruria/inotebook---MERN.stack.git
    ```
-
+   
 2. Navigate to the project directory:
    ```bash
    cd inotebook---MERN.stack
    ```
+   
+3. Create a .env file here
+   ```bash
+   touch .env
+   ```
+   
+4. Add the following variables to your .env file: Open the .env file in your preferred text editor and add the following:
+   ```bash
+   MONGO_URI=your_mongo_database_connection_string
+   JWT_SECRET=your_jwt_secret_key
+   ```
+- Replace 'your_mongo_database_connection_string' with your MongoDB connection URI.<br />
+- Replace 'your_jwt_secret_key' with your desired JWT secret key.
 
-4. Navigate to backend folder:
+## Installation and Usage
+
+### a. Running the project
+
+- After you have successfully set up the environment variables in the .env file, follow the below mentioned instructions.
+1. Navigate to backend folder:
    ```bash
    cd backend
    ``` 
-4. Install dependencies for backend:
+
+2. Install dependencies for backend:
    ```bash
    npm i
    ```
 
-5. Navigate back to client side:
+3. Navigate back to client side:
    ```bash
    cd ..
    ```
-6. Install dependencies for client:
+4. Install dependencies for client:
    ```bash
    npm i
    ```
-7. Run the application
+5. Run the application
    ```bash
    npm run both
    ```
