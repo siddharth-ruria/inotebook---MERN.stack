@@ -9,7 +9,7 @@ const Login = (props) => {
     e.preventDefault();
     // api call
     const response = await fetch(
-      "https://inotebook-backend-yzeb.onrender.com/api/auth/authenticate",
+      "http://localhost:5000/api/auth/authenticate",
       {
         method: "POST",
         headers: {
